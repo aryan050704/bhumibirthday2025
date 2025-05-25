@@ -33,11 +33,20 @@
             transition: transform 0.3s ease;
         }
 
+        .gallery-item img.error {
+            display: none;
+        }
+
+        .gallery-item img.error + .gallery-placeholder {
+            display: block;
+        }
+
         .gallery-item:hover img {
             transform: scale(1.05);
         }
 
         .gallery-placeholder {
+            display: none;
             color: rgba(255, 255, 255, 0.7);
             text-align: center;
             padding: 20px;
@@ -62,40 +71,82 @@
 
         <div class="gallery-title">
             <h1 class="title">Our Beautiful Memories</h1>
-            <p class="subtitle">Three years of love and happiness</p>
+            <p class="subtitle">18 precious moments that tell our story 💖</p>
         </div>
 
         <div class="gallery">
-            <!-- Placeholder for photos - you can add your photos here later -->
+            <!-- 18 image slots for your memories -->
             <div class="gallery-item">
-                <div class="gallery-placeholder">
-                    <p>Add your photo here</p>
-                </div>
+                <img src="./images/memory1.jpg.jpg" alt="Memory 1" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 1</div>
             </div>
             <div class="gallery-item">
-                <div class="gallery-placeholder">
-                    <p>Add your photo here</p>
-                </div>
+                <img src="./images/memory2.jpg.jpg" alt="Memory 2" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 2</div>
             </div>
             <div class="gallery-item">
-                <div class="gallery-placeholder">
-                    <p>Add your photo here</p>
-                </div>
+                <img src="./images/memory3.jpg.jpg" alt="Memory 3" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 3</div>
             </div>
             <div class="gallery-item">
-                <div class="gallery-placeholder">
-                    <p>Add your photo here</p>
-                </div>
+                <img src="./images/memory4.jpg.jpg" alt="Memory 4" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 4</div>
             </div>
             <div class="gallery-item">
-                <div class="gallery-placeholder">
-                    <p>Add your photo here</p>
-                </div>
+                <img src="./images/memory5.jpg.jpg" alt="Memory 5" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 5</div>
             </div>
             <div class="gallery-item">
-                <div class="gallery-placeholder">
-                    <p>Add your photo here</p>
-                </div>
+                <img src="./images/memory6.jpg.jpg" alt="Memory 6" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 6</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory7.jpg.jpg" alt="Memory 7" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 7</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory8.jpg.jpg" alt="Memory 8" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 8</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory9.jpg.jpg" alt="Memory 9" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 9</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory10.jpg.jpg" alt="Memory 10" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 10</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory11.jpg.jpg" alt="Memory 11" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 11</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory12.jpg.jpg" alt="Memory 12" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 12</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory13.jpg.jpg" alt="Memory 13" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 13</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory14.jpg.jpg" alt="Memory 14" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 14</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory15.jpg.jpg" alt="Memory 15" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 15</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory16.jpg.jpg" alt="Memory 16" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 16</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory17.jpg.jpg" alt="Memory 17" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 17</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/memory18.jpg.jpg" alt="Memory 18" onerror="this.classList.add('error')">
+                <div class="gallery-placeholder">Memory 18</div>
             </div>
         </div>
     </div>

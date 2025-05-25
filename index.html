@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Bhoomisha!</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preload" href="./images/splash.jpg" as="image">
     <style>
         body {
             margin: 0;
@@ -22,6 +23,7 @@
             text-align: center;
             color: white;
             position: relative;
+            z-index: 1;
         }
 
         .splash-image {
@@ -31,6 +33,7 @@
             margin-bottom: 20px;
             border: 5px solid rgba(255, 255, 255, 0.3);
             animation: pulse 2s infinite;
+            object-fit: cover;
         }
 
         .splash-title {
@@ -78,6 +81,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
+            z-index: 0;
         }
 
         .heart {
@@ -118,7 +122,7 @@
         <!-- Hearts will be added by JavaScript -->
     </div>
     <div class="splash-container">
-        <img src="./images/splash.jpg" alt="Birthday Splash" class="splash-image">
+        <img src="./images/splash.jpg" alt="Birthday Splash" class="splash-image" onerror="this.src='./images/memory1.jpg'">
         <h1 class="splash-title">Happy Birthday Bhoomisha!</h1>
         <p class="splash-subtitle">A special day for a special person 💖</p>
         <div class="loading-bar">
@@ -140,12 +144,12 @@
         }
 
         // Redirect to main page after loading
-        setTimeout(() => {
-            window.location.href = 'main.html';
-        }, 3000);
-
-        // Create hearts when page loads
-        window.onload = createHearts;
+        window.addEventListener('load', function() {
+            createHearts();
+            setTimeout(() => {
+                window.location.href = 'main.html';
+            }, 3000);
+        });
     </script>
 </body>
 </html> 

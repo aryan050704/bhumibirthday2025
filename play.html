@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play With Me - Happy Birthday Bhoomisha!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .play-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .game-area {
+            width: 100%;
+            height: 400px;
+            margin: 40px auto;
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .cat {
+            position: absolute;
+            font-size: 3rem;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: #fff;
+        }
+
+        .game-message {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-message p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .play-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #fff;
+            color: #ff69b4;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            margin: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            background: #ff69b4;
+            color: #fff;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="gallery.html">Our Memories</a>
+                <a href="message.html">My Message</a>
+                <a href="celebration.html">Celebration</a>
+                <a href="chess.html">Chess Love</a>
+                <a href="timeline.html">Our Timeline</a>
+                <a href="wishes.html">Birthday Wishes</a>
+                <a href="play.html" class="active">Play With Me</a>
+            </div>
+        </nav>
+
+        <div class="play-container">
+            <h1 class="title">Let's Play!</h1>
+            <p class="subtitle">Catch the cat and collect hearts! 🐱</p>
+
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="game-area" id="gameArea">
+                <div class="cat" id="cat">🐱</div>
+            </div>
+
+            <button class="play-button" onclick="startGame()">Start Game</button>
+
+            <div class="game-message">
+                <p>Click on the cat to collect points!</p>
+                <p>How many hearts can you collect? 💖</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-hearts" id="floatingHearts"></div>
+    <script src="script.js"></script>
+    <script>
+        let score = 0;
+        let gameStarted = false;
+        const cat = document.getElementById('cat');
+        const gameArea = document.getElementById('gameArea');
+        const scoreElement = document.getElementById('score');
+
+        function moveCat() {
+            if (!gameStarted) return;
+            
+            const maxX = gameArea.clientWidth - cat.clientWidth;
+            const maxY = gameArea.clientHeight - cat.clientHeight;
+            
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
+            
+            cat.style.left = newX + 'px';
+            cat.style.top = newY + 'px';
+        }
+
+        function startGame() {
+            gameStarted = true;
+            score = 0;
+            scoreElement.textContent = score;
+            moveCat();
+        }
+
+        cat.addEventListener('click', () => {
+            if (!gameStarted) return;
+            
+            score++;
+            scoreElement.textContent = score;
+            
+            // Create a floating heart
+            const heart = document.createElement('div');
+            heart.textContent = '💖';
+            heart.style.position = 'absolute';
+            heart.style.left = cat.style.left;
+            heart.style.top = cat.style.top;
+            heart.style.fontSize = '2rem';
+            heart.style.animation = 'float 1s ease-out forwards';
+            gameArea.appendChild(heart);
+            
+            // Remove heart after animation
+            setTimeout(() => heart.remove(), 1000);
+            
+            // Move cat to new position
+            moveCat();
+        });
+
+        // Create floating hearts in background
+        const floatingHearts = document.getElementById('floatingHearts');
+        for (let i = 0; i < 20; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '💖';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            floatingHearts.appendChild(heart);
+        }
+    </script>
+</body>
+</html> 

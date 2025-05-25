@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebration - Happy Birthday Bhoomisha!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .celebration-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .birthday-cake {
+            width: 200px;
+            height: 200px;
+            margin: 40px auto;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .cake {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .cake::before {
+            content: '🐱';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            z-index: 1;
+        }
+
+        .cake::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #ff69b4, #ffb6c1);
+            opacity: 0.3;
+        }
+
+        .candle {
+            width: 10px;
+            height: 40px;
+            background: #ffd700;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .flame {
+            width: 20px;
+            height: 20px;
+            background: #ff69b4;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50% 50% 20% 20%;
+            animation: flicker 0.5s ease-in-out infinite alternate;
+            z-index: 2;
+        }
+
+        .wishes {
+            margin-top: 40px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .wishes p {
+            position: relative;
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .wishes p::before {
+            content: '🐱';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes flicker {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-50%) scale(0.8);
+                opacity: 0.8;
+            }
+        }
+
+        .celebration-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #fff;
+            color: #ff69b4;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .celebration-button::before {
+            content: '🐱';
+            position: absolute;
+            left: -30px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .celebration-button:hover {
+            transform: scale(1.05);
+            background: #ff69b4;
+            color: #fff;
+        }
+
+        .celebration-button:hover::before {
+            left: 10px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="gallery.html">Our Memories</a>
+                <a href="message.html">My Message</a>
+                <a href="celebration.html" class="active">Celebration</a>
+            </div>
+        </nav>
+
+        <div class="celebration-container">
+            <h1 class="title">Let's Celebrate!</h1>
+            <p class="subtitle">Make a wish and blow out the candle! 🐱</p>
+
+            <div class="birthday-cake">
+                <div class="cake">
+                    <div class="candle">
+                        <div class="flame"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wishes">
+                <p>May all your dreams come true</p>
+                <p>May this year bring you endless joy and happiness</p>
+                <p>May our love grow stronger with each passing day</p>
+            </div>
+
+            <button class="celebration-button" onclick="startCelebration()">Start Celebration! 🐱</button>
+        </div>
+    </div>
+
+    <canvas class="confetti" id="confetti"></canvas>
+    <script src="script.js"></script>
+</body>
+</html> 

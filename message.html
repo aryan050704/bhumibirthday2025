@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Message - Happy Birthday Bhoomisha!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .message-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .message-content {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            line-height: 1.8;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .message-content::before {
+            content: '🐱';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            font-size: 2rem;
+            transform: rotate(-15deg);
+        }
+
+        .message-content::after {
+            content: '🐱';
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            font-size: 2rem;
+            transform: rotate(15deg);
+        }
+
+        .message-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .special-quote {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            margin: 40px 0;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .special-quote::before,
+        .special-quote::after {
+            content: '🐱';
+            position: absolute;
+            font-size: 1.5rem;
+        }
+
+        .special-quote::before {
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-15deg);
+        }
+
+        .special-quote::after {
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%) rotate(15deg);
+        }
+
+        .floating-hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        .cat-paw {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.1;
+            pointer-events: none;
+            animation: floatPaw 15s linear infinite;
+        }
+
+        @keyframes floatPaw {
+            0% {
+                transform: translate(-100vw, 100vh) rotate(0deg);
+            }
+            100% {
+                transform: translate(200vw, -100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="gallery.html">Our Memories</a>
+                <a href="message.html" class="active">My Message</a>
+                <a href="celebration.html">Celebration</a>
+            </div>
+        </nav>
+
+        <div class="message-container">
+            <h1 class="title">My Heartfelt Message</h1>
+            <p class="subtitle">To the most amazing person in my life 🐱</p>
+
+            <div class="message-content">
+                <p>My dearest Bhoomisha,</p>
+                
+                <p>As we celebrate your birthday, I want to take a moment to express how much you mean to me. These three years together have been the most beautiful journey of my life. Every moment with you has been a blessing, and I cherish every smile, every laugh, and every memory we've created together.</p>
+
+                <div class="special-quote">
+                    "In your eyes, I found my home. In your heart, I found my peace."
+                </div>
+
+                <p>You are the most caring, loving, and beautiful person I know. Your kindness, your strength, and your beautiful soul make every day brighter. You've been my support, my confidant, and my best friend through everything.</p>
+
+                <p>On your special day, I want you to know that you are loved beyond measure. You deserve all the happiness in the world, and I promise to spend every day making sure you feel as special as you make me feel.</p>
+
+                <p>Happy Birthday, my love. Here's to many more years of love, laughter, and beautiful memories together.</p>
+
+                <p>With all my love,<br>Forever yours 🐱</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-hearts" id="floatingHearts"></div>
+    <script src="script.js"></script>
+</body>
+</html> 

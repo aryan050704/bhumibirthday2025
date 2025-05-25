@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Love - Happy Birthday Bhoomisha!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .chess-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .chess-board {
+            width: 400px;
+            height: 400px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 2px solid #ff69b4;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .chess-square {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .chess-square:hover {
+            transform: scale(1.1);
+            z-index: 1;
+        }
+
+        .chess-square.white {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .chess-square.pink {
+            background: rgba(255, 105, 180, 0.3);
+        }
+
+        .chess-message {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .chess-message p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .chess-pieces {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .chess-piece {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: floatChess 20s linear infinite;
+        }
+
+        @keyframes floatChess {
+            0% {
+                transform: translate(-100vw, 100vh) rotate(0deg);
+            }
+            100% {
+                transform: translate(200vw, -100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="gallery.html">Our Memories</a>
+                <a href="message.html">My Message</a>
+                <a href="celebration.html">Celebration</a>
+                <a href="chess.html" class="active">Chess Love</a>
+                <a href="timeline.html">Our Timeline</a>
+                <a href="wishes.html">Birthday Wishes</a>
+                <a href="play.html">Play With Me</a>
+            </div>
+        </nav>
+
+        <div class="chess-container">
+            <h1 class="title">Chess Love</h1>
+            <p class="subtitle">Like chess pieces, we're meant to be together 🐱</p>
+
+            <div class="chess-board" id="chessBoard"></div>
+
+            <div class="chess-message">
+                <div class="chess-quote">
+                    "In the game of love, you're my queen"
+                </div>
+                <p>Just like in chess, where every piece has its special role, you play the most important role in my life. You're my queen, my partner, my everything.</p>
+                <p>Click on the chess pieces to see our special moments!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="chess-pieces" id="chessPieces"></div>
+    <script src="script.js"></script>
+    <script>
+        // Chess board creation
+        const chessBoard = document.getElementById('chessBoard');
+        const pieces = ['♔', '♕', '♖', '♗', '♘', '♙'];
+        const messages = [
+            "Our first date",
+            "Our first kiss",
+            "Our first trip together",
+            "Our first anniversary",
+            "Our first dance",
+            "Our first photo together"
+        ];
+
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
+                const square = document.createElement('div');
+                square.className = `chess-square ${(i + j) % 2 === 0 ? 'white' : 'pink'}`;
+
+                if (i < 2 || i > 5) {
+                    const piece = document.createElement('div');
+                    piece.textContent = pieces[Math.floor(Math.random() * pieces.length)];
+                    piece.style.cursor = 'pointer';
+                    piece.onclick = () => {
+                        alert(messages[Math.floor(Math.random() * messages.length)]);
+                    };
+                    square.appendChild(piece);
+                }
+                
+                chessBoard.appendChild(square);
+            }
+        }
+
+        // Floating chess pieces
+        const chessPiecesContainer = document.getElementById('chessPieces');
+        for (let i = 0; i < 10; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'chess-piece';
+            piece.textContent = pieces[Math.floor(Math.random() * pieces.length)];
+            piece.style.left = Math.random() * 100 + 'vw';
+            piece.style.animationDelay = Math.random() * 20 + 's';
+            chessPiecesContainer.appendChild(piece);
+        }
+    </script>
+</body>
+</html> 

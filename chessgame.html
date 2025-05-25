@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Chess - Happy Birthday Bhoomisha!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
+    <style>
+        .chess-game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        #board {
+            width: 400px;
+            margin: 20px auto;
+        }
+
+        .game-controls {
+            margin: 20px 0;
+        }
+
+        .game-controls button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: #fff;
+            color: #ff69b4;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .game-controls button:hover {
+            background: #ff69b4;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .game-status {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .move-history {
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .move-history p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .chess-message {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .chess-message p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="gallery.html">Our Memories</a>
+                <a href="message.html">My Message</a>
+                <a href="celebration.html">Celebration</a>
+                <a href="chess.html">Chess Love</a>
+                <a href="chessgame.html" class="active">Play Chess</a>
+                <a href="timeline.html">Our Timeline</a>
+                <a href="wishes.html">Birthday Wishes</a>
+                <a href="play.html">Play With Me</a>
+            </div>
+        </nav>
+
+        <div class="chess-game-container">
+            <h1 class="title">Let's Play Chess!</h1>
+            <p class="subtitle">A game of strategy and love 🐱</p>
+
+            <div id="board"></div>
+
+            <div class="game-controls">
+                <button onclick="startNewGame()">New Game</button>
+                <button onclick="undoMove()">Undo Move</button>
+                <button onclick="flipBoard()">Flip Board</button>
+            </div>
+
+            <div class="game-status" id="status">
+                White's turn
+            </div>
+
+            <div class="move-history" id="moveHistory">
+                <h3>Move History</h3>
+            </div>
+
+            <div class="chess-message">
+                <p>Play a game of chess with me! Just like in our relationship, every move matters.</p>
+                <p>Click on a piece to move it, and let's create beautiful memories together! 💖</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script>
+        let board = null;
+        let game = new Chess();
+        let $status = $('#status');
+        let $board = $('#board');
+        let $moveHistory = $('#moveHistory');
+        let moveCount = 0;
+
+        function onDragStart(source, piece) {
+            if (game.game_over() || 
+                (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+                (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+                return false;
+            }
+        }
+
+        function makeRandomMove() {
+            let moves = game.moves();
+            if (moves.length > 0) {
+                let randomMove = moves[Math.floor(Math.random() * moves.length)];
+                game.move(randomMove);
+                board.position(game.fen());
+                updateStatus();
+                updateMoveHistory(randomMove);
+            }
+        }
+
+        function onDrop(source, target) {
+            let move = game.move({
+                from: source,
+                to: target,
+                promotion: 'q'
+            });
+
+            if (move === null) return false;
+
+            updateStatus();
+            updateMoveHistory(move);
+            
+            // Computer's move
+            window.setTimeout(makeRandomMove, 250);
+        }
+
+        function onSnapEnd() {
+            board.position(game.fen());
+        }
+
+        function updateStatus() {
+            let status = '';
+
+            let moveColor = game.turn() === 'b' ? 'Black' : 'White';
+
+            if (game.in_checkmate()) {
+                status = 'Game over, ' + moveColor + ' is in checkmate.';
+            } else if (game.in_draw()) {
+                status = 'Game over, drawn position';
+            } else {
+                status = moveColor + ' to move';
+
+                if (game.in_check()) {
+                    status += ', ' + moveColor + ' is in check';
+                }
+            }
+
+            $status.html(status);
+        }
+
+        function updateMoveHistory(move) {
+            moveCount++;
+            let moveText = moveCount + '. ' + move.from + ' to ' + move.to;
+            if (move.promotion) {
+                moveText += ' (promoted to ' + move.promotion + ')';
+            }
+            $moveHistory.append('<p>' + moveText + '</p>');
+            $moveHistory.scrollTop($moveHistory[0].scrollHeight);
+        }
+
+        function startNewGame() {
+            game = new Chess();
+            board.position('start');
+            $moveHistory.empty();
+            moveCount = 0;
+            updateStatus();
+        }
+
+        function undoMove() {
+            game.undo();
+            game.undo();
+            board.position(game.fen());
+            $moveHistory.find('p:last-child').remove();
+            $moveHistory.find('p:last-child').remove();
+            moveCount = Math.max(0, moveCount - 2);
+            updateStatus();
+        }
+
+        function flipBoard() {
+            board.flip();
+        }
+
+        let config = {
+            draggable: true,
+            position: 'start',
+            onDragStart: onDragStart,
+            onDrop: onDrop,
+            onSnapEnd: onSnapEnd
+        };
+
+        board = Chessboard('board', config);
+        updateStatus();
+    </script>
+</body>
+</html> 

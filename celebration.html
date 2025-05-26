@@ -391,7 +391,6 @@
         }
 
         function onPlayerReady(event) {
-            // Player is ready
             updateActiveSong(0);
         }
 
@@ -418,7 +417,6 @@
             });
         }
 
-        // Add click handlers for song list
         document.querySelectorAll('.song-item').forEach((item, index) => {
             item.addEventListener('click', () => {
                 currentSongIndex = index;
@@ -427,7 +425,6 @@
             });
         });
 
-        // Start playing when celebration starts
         function startCelebration() {
             createFloatingElements();
             if (player && player.playVideo) {

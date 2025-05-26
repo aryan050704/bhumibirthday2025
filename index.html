@@ -11,7 +11,7 @@
             padding: 0;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
             font-family: 'Poppins', sans-serif;
@@ -26,7 +26,8 @@
             width: 100%;
             max-width: 800px;
             padding: 20px;
-            margin: 40px auto;
+            margin: 20px auto;
+            overflow-y: auto;
         }
 
         .splash-image {
@@ -81,13 +82,14 @@
         .button-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin-top: 30px;
             flex-wrap: wrap;
+            padding: 20px;
         }
 
         .button {
-            padding: 15px 30px;
+            padding: 12px 25px;
             background: rgba(255, 255, 255, 0.2);
             color: white;
             text-decoration: none;
@@ -98,6 +100,7 @@
             border: 2px solid rgba(255, 255, 255, 0.3);
             animation: buttonPop 0.5s ease-out forwards;
             opacity: 0;
+            font-size: 0.9rem;
         }
 
         .button:hover {
@@ -245,7 +248,12 @@
             'images/memory2.jpg',
             'images/memory3.jpg',
             'images/memory4.jpg',
-            'images/memory5.jpg'
+            'images/memory5.jpg',
+            'images/memory6.jpg',
+            'images/memory7.jpg',
+            'images/memory8.jpg',
+            'images/memory9.jpg',
+            'images/memory10.jpg'
         ];
 
         // Create floating elements (photos and words)
@@ -255,7 +263,7 @@
                 element.className = 'floating-element';
                 
                 // Randomly decide if it's a photo or text
-                if (Math.random() > 0.5) {
+                if (Math.random() > 0.3) { // Increased probability of photos
                     const img = document.createElement('img');
                     img.src = memoryPhotos[Math.floor(Math.random() * memoryPhotos.length)];
                     img.className = 'floating-photo';
@@ -277,7 +285,7 @@
                 setTimeout(() => {
                     element.remove();
                 }, 5000);
-            }, 300); // Create new element every 300ms
+            }, 200); // Reduced interval for more frequent animations
         }
 
         // Create floating hearts

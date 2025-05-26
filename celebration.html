@@ -222,73 +222,52 @@
             z-index: 1000;
             backdrop-filter: blur(5px);
             transition: all 0.3s ease;
+            width: 300px;
         }
 
         .music-player:hover {
             transform: scale(1.02);
         }
 
-        .music-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .play-button {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #ff69b4;
-            border: none;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .player-title {
+            font-family: 'Dancing Script', cursive;
+            color: #ff69b4;
             font-size: 1.2em;
-            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
-        .play-button:hover {
-            transform: scale(1.1);
-            background: #ff1493;
+        .youtube-player {
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
-        .song-info {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9em;
-            color: #333;
+        .song-list {
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            padding: 5px;
         }
 
-        .song-title {
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .song-artist {
-            font-size: 0.8em;
-            color: #666;
-        }
-
-        .volume-control {
-            width: 80px;
-            height: 4px;
-            background: #ddd;
-            border-radius: 2px;
-            position: relative;
+        .song-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(255, 105, 180, 0.1);
+            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
         }
 
-        .volume-level {
-            position: absolute;
-            height: 100%;
-            background: #ff69b4;
-            border-radius: 2px;
-            width: 70%;
+        .song-item:hover {
+            background: rgba(255, 105, 180, 0.2);
+            transform: translateX(5px);
         }
 
-        .volume-control:hover .volume-level {
-            background: #ff1493;
+        .song-item.active {
+            background: rgba(255, 105, 180, 0.3);
+            font-weight: bold;
         }
     </style>
 </head>
@@ -327,19 +306,19 @@
 
     <canvas class="confetti" id="confetti"></canvas>
     <div class="music-player">
-        <div class="music-controls">
-            <button class="play-button" onclick="togglePlay()">▶️</button>
-            <div class="song-info">
-                <div class="song-title">Feather</div>
-                <div class="song-artist">Sabrina Carpenter</div>
-            </div>
-            <div class="volume-control" onclick="adjustVolume(event)">
-                <div class="volume-level"></div>
-            </div>
+        <div class="player-title">🎵 Sabrina's Songs 🎵</div>
+        <div id="player" class="youtube-player"></div>
+        <div class="song-list">
+            <div class="song-item" data-video-id="K5KAc5CoCuk">Feather</div>
+            <div class="song-item" data-video-id="qHkp7LhW1qY">Nonsense</div>
+            <div class="song-item" data-video-id="H3v9unrn5bQ">Vicious</div>
+            <div class="song-item" data-video-id="dT_ojGIJX0s">Fast Times</div>
+            <div class="song-item" data-video-id="qHkp7LhW1qY">Because I Liked a Boy</div>
         </div>
     </div>
 
     <script src="script.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         const cuteWords = [
             'Babu', 'BB', 'Bubu', 'Bab', 'Bumu', 'Cutu', 'Pyaari', 
@@ -382,73 +361,77 @@
             }, 1000);
         }
 
+        let player;
+        let currentSongIndex = 0;
         const songs = [
-            {
-                title: "Feather",
-                artist: "Sabrina Carpenter",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" // Replace with actual song URL
-            },
-            {
-                title: "Nonsense",
-                artist: "Sabrina Carpenter",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" // Replace with actual song URL
-            },
-            {
-                title: "Vicious",
-                artist: "Sabrina Carpenter",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" // Replace with actual song URL
-            }
+            { id: 'K5KAc5CoCuk', title: 'Feather' },
+            { id: 'qHkp7LhW1qY', title: 'Nonsense' },
+            { id: 'H3v9unrn5bQ', title: 'Vicious' },
+            { id: 'dT_ojGIJX0s', title: 'Fast Times' },
+            { id: 'qHkp7LhW1qY', title: 'Because I Liked a Boy' }
         ];
 
-        let currentSongIndex = 0;
-        let isPlaying = false;
-        let audio = new Audio(songs[currentSongIndex].url);
-        let volume = 0.7;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '180',
+                width: '100%',
+                videoId: songs[0].id,
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 1,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
 
-        function togglePlay() {
-            const playButton = document.querySelector('.play-button');
-            if (isPlaying) {
-                audio.pause();
-                playButton.textContent = '▶️';
-            } else {
-                audio.play();
-                playButton.textContent = '⏸️';
+        function onPlayerReady(event) {
+            // Player is ready
+            updateActiveSong(0);
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                playNextSong();
             }
-            isPlaying = !isPlaying;
         }
 
-        function updateSongInfo() {
-            const songTitle = document.querySelector('.song-title');
-            const songArtist = document.querySelector('.song-artist');
-            songTitle.textContent = songs[currentSongIndex].title;
-            songArtist.textContent = songs[currentSongIndex].artist;
-        }
-
-        function nextSong() {
+        function playNextSong() {
             currentSongIndex = (currentSongIndex + 1) % songs.length;
-            audio.src = songs[currentSongIndex].url;
-            updateSongInfo();
-            if (isPlaying) {
-                audio.play();
-            }
+            player.loadVideoById(songs[currentSongIndex].id);
+            updateActiveSong(currentSongIndex);
         }
 
-        function adjustVolume(event) {
-            const volumeControl = event.currentTarget;
-            const rect = volumeControl.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            volume = x / rect.width;
-            audio.volume = volume;
-            document.querySelector('.volume-level').style.width = (volume * 100) + '%';
+        function updateActiveSong(index) {
+            const songItems = document.querySelectorAll('.song-item');
+            songItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
         }
 
-        audio.addEventListener('ended', nextSong);
-        audio.volume = volume;
+        // Add click handlers for song list
+        document.querySelectorAll('.song-item').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentSongIndex = index;
+                player.loadVideoById(songs[index].id);
+                updateActiveSong(index);
+            });
+        });
 
+        // Start playing when celebration starts
         function startCelebration() {
             createFloatingElements();
-            if (!isPlaying) {
-                togglePlay();
+            if (player && player.playVideo) {
+                player.playVideo();
             }
         }
 

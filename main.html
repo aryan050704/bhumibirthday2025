@@ -6,6 +6,52 @@
     <title>Happy Birthday Bhoomisha! ❤️</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            animation: float-up 4s ease-in-out forwards;
+            opacity: 0;
+            z-index: 1000;
+        }
+
+        .floating-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .floating-text {
+            font-family: 'Dancing Script', cursive;
+            color: white;
+            font-size: 1.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            white-space: nowrap;
+            background: rgba(255, 107, 107, 0.8);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -45,5 +91,51 @@
         <div class="chess-pieces"></div>
     </div>
     <script src="script.js"></script>
+    <script>
+        const cuteWords = [
+            'Babu', 'BB', 'Bubu', 'Bab', 'Bumu', 'Cutu', 'Pyaari', 
+            'Sweetie', 'Love', 'Honey', 'Cutie', 'Baby', 'Darling'
+        ];
+
+        const memoryPhotos = [
+            'images/memory1.jpg',
+            'images/memory2.jpg',
+            'images/memory3.jpg',
+            'images/memory4.jpg',
+            'images/memory5.jpg'
+        ];
+
+        function createFloatingElements() {
+            setInterval(() => {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                
+                if (Math.random() > 0.5) {
+                    const img = document.createElement('img');
+                    img.src = memoryPhotos[Math.floor(Math.random() * memoryPhotos.length)];
+                    img.className = 'floating-photo';
+                    element.appendChild(img);
+                } else {
+                    const text = document.createElement('div');
+                    text.className = 'floating-text';
+                    text.textContent = cuteWords[Math.floor(Math.random() * cuteWords.length)];
+                    element.appendChild(text);
+                }
+
+                element.style.left = Math.random() * 100 + 'vw';
+                element.style.animationDuration = (3 + Math.random() * 2) + 's';
+                
+                document.body.appendChild(element);
+
+                setTimeout(() => {
+                    element.remove();
+                }, 5000);
+            }, 1000);
+        }
+
+        window.addEventListener('load', function() {
+            createFloatingElements();
+        });
+    </script>
 </body>
 </html> 

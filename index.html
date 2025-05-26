@@ -23,45 +23,116 @@
             color: white;
             position: relative;
             z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
         .splash-image {
-            width: 200px;
+            width: 100%;
             height: 200px;
-            border-radius: 50%;
-            margin-bottom: 20px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            animation: pulse 2s infinite;
+            border-radius: 15px;
             object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .splash-image:hover {
+            transform: scale(1.05);
         }
 
         .splash-title {
             font-family: 'Dancing Script', cursive;
-            font-size: 3em;
-            margin: 0;
+            font-size: 4em;
+            margin: 20px 0;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: glow 2s ease-in-out infinite;
         }
 
         .splash-subtitle {
-            font-size: 1.2em;
-            margin: 10px 0;
+            font-size: 1.5em;
+            margin: 10px 0 30px;
             opacity: 0.9;
+            animation: fadeIn 1s ease-in-out;
         }
 
         .loading-bar {
-            width: 200px;
-            height: 4px;
+            width: 300px;
+            height: 6px;
             background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
+            border-radius: 3px;
             margin: 20px auto;
             overflow: hidden;
+            position: relative;
         }
 
         .loading-progress {
             width: 0%;
             height: 100%;
-            background: white;
+            background: linear-gradient(90deg, #ff69b4, #ffd700);
             animation: loading 3s ease-in-out forwards;
+            border-radius: 3px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: buttonPop 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes buttonPop {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
         }
 
         .floating-element {
@@ -72,48 +143,30 @@
         }
 
         .floating-photo {
-            width: 40px;
-            height: 40px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .floating-text {
             font-family: 'Dancing Script', cursive;
             color: white;
-            font-size: 1.2em;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            font-size: 1.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             white-space: nowrap;
+            background: rgba(255, 105, 180, 0.8);
+            padding: 5px 15px;
+            border-radius: 20px;
         }
 
         @keyframes float-up {
-            0% {
-                transform: translateY(100vh) scale(0.5);
-                opacity: 0;
-            }
-            20% {
-                opacity: 1;
-            }
-            80% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) scale(1);
-                opacity: 0;
-            }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes loading {
-            0% { width: 0%; }
-            100% { width: 100%; }
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
         }
 
         .hearts {
@@ -162,17 +215,21 @@
         <!-- Hearts will be added by JavaScript -->
     </div>
     <div class="splash-container">
-        <img src="images/splash.jpg" alt="Birthday Splash" class="splash-image" onerror="handleImageError(this)">
+        <div class="image-grid">
+            <img src="images/memory1.jpg" alt="Memory 1" class="splash-image" onerror="handleImageError(this)">
+            <img src="images/memory2.jpg" alt="Memory 2" class="splash-image" onerror="handleImageError(this)">
+            <img src="images/memory3.jpg" alt="Memory 3" class="splash-image" onerror="handleImageError(this)">
+        </div>
         <h1 class="splash-title">Happy Birthday Bhoomisha!</h1>
         <p class="splash-subtitle">A special day for a special person 💖</p>
         <div class="loading-bar">
             <div class="loading-progress"></div>
         </div>
         <div class="button-container">
-            <a href="gallery.html" class="button">Gallery</a>
-            <a href="message.html" class="button">Message</a>
-            <a href="celebration.html" class="button">Celebration</a>
-            <a href="music.html" class="button">Music</a>
+            <a href="gallery.html" class="button" style="animation-delay: 0.2s">Gallery</a>
+            <a href="message.html" class="button" style="animation-delay: 0.4s">Message</a>
+            <a href="celebration.html" class="button" style="animation-delay: 0.6s">Celebration</a>
+            <a href="music.html" class="button" style="animation-delay: 0.8s">Music</a>
         </div>
     </div>
 
@@ -219,13 +276,13 @@
                 setTimeout(() => {
                     element.remove();
                 }, 5000);
-            }, 500); // Create new element every 500ms
+            }, 300); // Create new element every 300ms
         }
 
         // Create floating hearts
         function createHearts() {
             const heartsContainer = document.querySelector('.hearts');
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 15; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
                 heart.style.left = Math.random() * 100 + 'vw';

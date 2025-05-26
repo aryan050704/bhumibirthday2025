@@ -10,9 +10,7 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
+            display: block;
             background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
             font-family: 'Poppins', sans-serif;
             overflow-y: auto;
@@ -27,7 +25,10 @@
             max-width: 800px;
             padding: 20px;
             margin: 20px auto;
-            overflow-y: auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .splash-image {
@@ -82,14 +83,14 @@
         .button-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
+            gap: 10px;
+            margin: 20px 0;
             flex-wrap: wrap;
-            padding: 20px;
+            padding: 10px;
         }
 
         .button {
-            padding: 12px 25px;
+            padding: 10px 20px;
             background: rgba(255, 255, 255, 0.2);
             color: white;
             text-decoration: none;
@@ -100,7 +101,8 @@
             border: 2px solid rgba(255, 255, 255, 0.3);
             animation: buttonPop 0.5s ease-out forwards;
             opacity: 0;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            white-space: nowrap;
         }
 
         .button:hover {
@@ -248,12 +250,7 @@
             'images/memory2.jpg',
             'images/memory3.jpg',
             'images/memory4.jpg',
-            'images/memory5.jpg',
-            'images/memory6.jpg',
-            'images/memory7.jpg',
-            'images/memory8.jpg',
-            'images/memory9.jpg',
-            'images/memory10.jpg'
+            'images/memory5.jpg'
         ];
 
         // Create floating elements (photos and words)

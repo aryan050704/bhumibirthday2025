@@ -210,6 +210,29 @@
                 opacity: 0;
             }
         }
+
+        .pom-pom {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            transform-origin: center;
+            animation: spin 2s linear infinite;
+        }
+
+        .pom-circle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform-origin: 15px 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -261,31 +284,49 @@
             content.innerHTML = `
                 <h1>🎉 Happy Birthday! 🎉</h1>
                 <p>Wishing you a day filled with joy and laughter!</p>
-                <div class="button-container">
-                    <a href="music.html" class="celebration-button">🎵 Play Music 🎵</a>
-                </div>
             `;
         }
 
         function createFloatingElements() {
             const container = document.querySelector('.celebration-container');
-            const elements = ['🎂', '🎈', '🎁', '🎊', '🎉', '💖', '✨', '🌟', '🐱', '💝', '🎀', '🎆'];
+            const colors = [
+                '#ff69b4', // Pink
+                '#ffd700', // Gold
+                '#87ceeb', // Blue
+                '#98fb98', // Green
+                '#ffb6c1', // Light Pink
+                '#ff1493', // Deep Pink
+                '#ffa500', // Orange
+                '#4169e1', // Royal Blue
+                '#32cd32', // Lime Green
+                '#ff69b4'  // Hot Pink
+            ];
             
-            // Create floating elements continuously
+            // Create pom-pom style papers
             setInterval(() => {
-                const element = document.createElement('div');
-                element.className = 'floating-element';
-                element.textContent = elements[Math.floor(Math.random() * elements.length)];
-                element.style.left = Math.random() * 100 + 'vw';
-                element.style.animationDuration = (3 + Math.random() * 2) + 's';
-                element.style.animationDelay = Math.random() * 2 + 's';
-                container.appendChild(element);
+                const paper = document.createElement('div');
+                paper.className = 'floating-element pom-pom';
+                
+                // Create pom-pom effect with multiple circles
+                const numCircles = 8;
+                for (let i = 0; i < numCircles; i++) {
+                    const circle = document.createElement('div');
+                    circle.className = 'pom-circle';
+                    circle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    circle.style.transform = `rotate(${i * (360 / numCircles)}deg)`;
+                    paper.appendChild(circle);
+                }
+                
+                paper.style.left = Math.random() * 100 + 'vw';
+                paper.style.animationDuration = (3 + Math.random() * 2) + 's';
+                paper.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(paper);
 
-                // Remove element after animation
+                // Remove paper after animation
                 setTimeout(() => {
-                    element.remove();
+                    paper.remove();
                 }, 5000);
-            }, 300);
+            }, 200);
         }
 
         // Initialize confetti

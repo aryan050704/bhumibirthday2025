@@ -38,16 +38,15 @@ body::before {
 }
 
 .navbar {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    padding: 15px 0;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 20px;
     border-radius: 15px;
-    margin-bottom: 30px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
     position: sticky;
-    top: 20px;
+    top: 10px;
     z-index: 1000;
-    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    margin: 10px;
 }
 
 .navbar::before {
@@ -73,44 +72,36 @@ body::before {
 .nav-links {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    align-items: center;
+    gap: 8px;
     flex-wrap: wrap;
-    padding: 0 20px;
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
 }
 
 .nav-links a {
-    color: #fff;
+    color: #ff69b4;
     text-decoration: none;
-    font-size: 1rem;
-    padding: 8px 16px;
+    padding: 8px 12px;
     border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
     transition: all 0.3s ease;
+    background: rgba(255, 105, 180, 0.1);
+    white-space: nowrap;
     position: relative;
     overflow: hidden;
-    white-space: nowrap;
-    background: rgba(255, 255, 255, 0.1);
 }
 
-.nav-links a::after {
-    content: '🐱';
-    position: absolute;
-    right: -25px;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.nav-links a:hover::after {
-    opacity: 1;
-}
-
-.nav-links a:hover, .nav-links a.active {
-    background: rgba(255, 255, 255, 0.3);
+.nav-links a:hover {
+    background: #ff69b4;
+    color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links a.active {
+    background: #ff69b4;
+    color: white;
 }
 
 .hero {
@@ -282,43 +273,134 @@ body::before {
     z-index: -1;
 }
 
-@media (max-width: 768px) {
-    .title {
-        font-size: 3rem;
-    }
-    
-    .title::before, .title::after {
-        display: none;
-    }
-    
-    .subtitle {
-        font-size: 1.2rem;
-    }
-    
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
     .navbar {
-        position: relative;
+        padding: 8px 12px;
+        margin: 5px;
+        position: fixed;
         top: 0;
-        margin: 10px;
-        padding: 10px 0;
+        left: 0;
+        right: 0;
+        border-radius: 0;
     }
-    
+
     .nav-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        padding: 0 10px;
+        gap: 6px;
+        padding: 5px;
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .nav-links::-webkit-scrollbar {
+        display: none;
     }
 
     .nav-links a {
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        flex-shrink: 0;
     }
 
-    .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
+    .container {
+        padding-top: 60px;
+    }
+
+    .title {
+        font-size: 2em;
+        margin-top: 20px;
+    }
+
+    .subtitle {
+        font-size: 1.1em;
+    }
+
+    .button {
+        font-size: 0.8rem;
+        padding: 8px 16px;
+    }
+
+    .button-container {
+        gap: 8px;
+        padding: 8px;
+    }
+}
+
+/* Small Mobile Devices */
+@media screen and (max-width: 480px) {
+    .navbar {
+        padding: 6px 8px;
+    }
+
+    .nav-links {
+        gap: 4px;
+    }
+
+    .nav-links a {
+        font-size: 0.75rem;
+        padding: 5px 8px;
+    }
+
+    .title {
+        font-size: 1.8em;
+    }
+
+    .subtitle {
+        font-size: 1em;
+    }
+}
+
+/* Ensure content is visible on mobile */
+.container {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px 10px;
+    box-sizing: border-box;
+}
+
+/* Improve touch targets */
+button, 
+.button,
+.nav-links a {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Improve text readability */
+p, 
+.subtitle {
+    line-height: 1.6;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+/* Ensure images are responsive */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Improve form elements on mobile */
+input, 
+textarea, 
+select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Add safe area insets for modern mobile devices */
+@supports (padding: max(0px)) {
+    .navbar {
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
     }
 } 

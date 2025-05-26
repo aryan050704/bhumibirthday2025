@@ -314,6 +314,11 @@
             <div class="song-item" data-video-id="H3v9unrn5bQ">Vicious</div>
             <div class="song-item" data-video-id="dT_ojGIJX0s">Fast Times</div>
             <div class="song-item" data-video-id="qHkp7LhW1qY">Because I Liked a Boy</div>
+            <div class="song-item" data-video-id="sEXHeTcxQq4">Espresso</div>
+            <div class="song-item" data-video-id="H3v9unrn5bQ">Vicious</div>
+            <div class="song-item" data-video-id="qHkp7LhW1qY">Nonsense</div>
+            <div class="song-item" data-video-id="K5KAc5CoCuk">Feather</div>
+            <div class="song-item" data-video-id="dT_ojGIJX0s">Fast Times</div>
         </div>
     </div>
 
@@ -368,7 +373,12 @@
             { id: 'qHkp7LhW1qY', title: 'Nonsense' },
             { id: 'H3v9unrn5bQ', title: 'Vicious' },
             { id: 'dT_ojGIJX0s', title: 'Fast Times' },
-            { id: 'qHkp7LhW1qY', title: 'Because I Liked a Boy' }
+            { id: 'qHkp7LhW1qY', title: 'Because I Liked a Boy' },
+            { id: 'sEXHeTcxQq4', title: 'Espresso' },
+            { id: 'H3v9unrn5bQ', title: 'Vicious' },
+            { id: 'qHkp7LhW1qY', title: 'Nonsense' },
+            { id: 'K5KAc5CoCuk', title: 'Feather' },
+            { id: 'dT_ojGIJX0s', title: 'Fast Times' }
         ];
 
         function onYouTubeIframeAPIReady() {
@@ -381,11 +391,13 @@
                     'controls': 1,
                     'rel': 0,
                     'showinfo': 0,
-                    'modestbranding': 1
+                    'modestbranding': 1,
+                    'playsinline': 1
                 },
                 events: {
                     'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
+                    'onStateChange': onPlayerStateChange,
+                    'onError': onPlayerError
                 }
             });
         }
@@ -400,6 +412,11 @@
             }
         }
 
+        function onPlayerError(event) {
+            console.error('YouTube Player Error:', event.data);
+            playNextSong(); // Skip to next song if there's an error
+        }
+
         function playNextSong() {
             currentSongIndex = (currentSongIndex + 1) % songs.length;
             player.loadVideoById(songs[currentSongIndex].id);
@@ -411,6 +428,7 @@
             songItems.forEach((item, i) => {
                 if (i === index) {
                     item.classList.add('active');
+                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
                     item.classList.remove('active');
                 }
@@ -422,6 +440,9 @@
                 currentSongIndex = index;
                 player.loadVideoById(songs[index].id);
                 updateActiveSong(index);
+                if (player && player.playVideo) {
+                    player.playVideo();
+                }
             });
         });
 

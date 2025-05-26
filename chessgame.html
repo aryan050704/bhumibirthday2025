@@ -224,6 +224,14 @@
             board.flip();
         }
 
+        function getPieceSymbol(piece) {
+            const symbols = {
+                'p': '♟', 'n': '♞', 'b': '♝', 'r': '♜', 'q': '♛', 'k': '♚',
+                'P': '♙', 'N': '♘', 'B': '♗', 'R': '♖', 'Q': '♕', 'K': '♔'
+            };
+            return symbols[piece.type.toUpperCase() + (piece.color === 'w' ? '' : '')];
+        }
+
         let config = {
             draggable: true,
             position: 'start',

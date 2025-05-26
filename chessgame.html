@@ -224,14 +224,6 @@
             board.flip();
         }
 
-        function getPieceSymbol(piece) {
-            const symbols = {
-                'p': '♟', 'n': '♞', 'b': '♝', 'r': '♜', 'q': '♛', 'k': '♚',
-                'P': '♙', 'N': '♘', 'B': '♗', 'R': '♖', 'Q': '♕', 'K': '♔'
-            };
-            return symbols[piece.type.toUpperCase() + (piece.color === 'w' ? '' : '')];
-        }
-
         let config = {
             draggable: true,
             position: 'start',
@@ -241,8 +233,11 @@
             pieceTheme: 'https://chessboardjs.com/img/chesspieces/alpha/{piece}.png'
         };
 
-        board = Chessboard('board', config);
-        updateStatus();
+        // Initialize the board after the DOM is fully loaded
+        $(document).ready(function() {
+            board = Chessboard('board', config);
+            updateStatus();
+        });
     </script>
 </body>
 </html> 

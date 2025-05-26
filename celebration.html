@@ -306,19 +306,29 @@
 
     <canvas class="confetti" id="confetti"></canvas>
     <div class="music-player">
-        <div class="player-title">🎵 Sabrina's Songs 🎵</div>
+        <div class="player-title">🎵 Your Favorites 🎵</div>
         <div id="player" class="youtube-player"></div>
         <div class="song-list">
-            <div class="song-item" data-video-id="K5KAc5CoCuk">Feather</div>
-            <div class="song-item" data-video-id="qHkp7LhW1qY">Nonsense</div>
-            <div class="song-item" data-video-id="H3v9unrn5bQ">Vicious</div>
-            <div class="song-item" data-video-id="dT_ojGIJX0s">Fast Times</div>
-            <div class="song-item" data-video-id="qHkp7LhW1qY">Because I Liked a Boy</div>
-            <div class="song-item" data-video-id="sEXHeTcxQq4">Espresso</div>
-            <div class="song-item" data-video-id="H3v9unrn5bQ">Vicious</div>
-            <div class="song-item" data-video-id="qHkp7LhW1qY">Nonsense</div>
-            <div class="song-item" data-video-id="K5KAc5CoCuk">Feather</div>
-            <div class="song-item" data-video-id="dT_ojGIJX0s">Fast Times</div>
+            <!-- Sabrina Carpenter -->
+            <div class="song-item" data-video-id="sEXHeTcxQq4">Espresso - Sabrina Carpenter</div>
+            <div class="song-item" data-video-id="K5KAc5CoCuk">Feather - Sabrina Carpenter</div>
+            <div class="song-item" data-video-id="qHkp7LhW1qY">Nonsense - Sabrina Carpenter</div>
+            <div class="song-item" data-video-id="H3v9unrn5bQ">Vicious - Sabrina Carpenter</div>
+            <div class="song-item" data-video-id="dT_ojGIJX0s">Fast Times - Sabrina Carpenter</div>
+            
+            <!-- Billie Eilish -->
+            <div class="song-item" data-video-id="DxjdF1UyPqg">What Was I Made For? - Billie Eilish</div>
+            <div class="song-item" data-video-id="EgBJmlPo8Xw">bad guy - Billie Eilish</div>
+            <div class="song-item" data-video-id="pbMwTqkKSps">lovely - Billie Eilish</div>
+            <div class="song-item" data-video-id="D9G1VOjN_84">when the party\'s over - Billie Eilish</div>
+            <div class="song-item" data-video-id="v1POP-m76ac">everything i wanted - Billie Eilish</div>
+            
+            <!-- Miley Cyrus -->
+            <div class="song-item" data-video-id="aGGBGcjdjXA">Flowers - Miley Cyrus</div>
+            <div class="song-item" data-video-id="My2FRPA3Gf8">Wrecking Ball - Miley Cyrus</div>
+            <div class="song-item" data-video-id="8xg3vE8Ie_E">The Climb - Miley Cyrus</div>
+            <div class="song-item" data-video-id="rDWwZ3Q4vxY">Party In The U.S.A. - Miley Cyrus</div>
+            <div class="song-item" data-video-id="8xg3vE8Ie_E">Malibu - Miley Cyrus</div>
         </div>
     </div>
 
@@ -369,16 +379,26 @@
         let player;
         let currentSongIndex = 0;
         const songs = [
-            { id: 'K5KAc5CoCuk', title: 'Feather' },
-            { id: 'qHkp7LhW1qY', title: 'Nonsense' },
-            { id: 'H3v9unrn5bQ', title: 'Vicious' },
-            { id: 'dT_ojGIJX0s', title: 'Fast Times' },
-            { id: 'qHkp7LhW1qY', title: 'Because I Liked a Boy' },
-            { id: 'sEXHeTcxQq4', title: 'Espresso' },
-            { id: 'H3v9unrn5bQ', title: 'Vicious' },
-            { id: 'qHkp7LhW1qY', title: 'Nonsense' },
-            { id: 'K5KAc5CoCuk', title: 'Feather' },
-            { id: 'dT_ojGIJX0s', title: 'Fast Times' }
+            // Sabrina Carpenter
+            { id: 'sEXHeTcxQq4', title: 'Espresso - Sabrina Carpenter' },
+            { id: 'K5KAc5CoCuk', title: 'Feather - Sabrina Carpenter' },
+            { id: 'qHkp7LhW1qY', title: 'Nonsense - Sabrina Carpenter' },
+            { id: 'H3v9unrn5bQ', title: 'Vicious - Sabrina Carpenter' },
+            { id: 'dT_ojGIJX0s', title: 'Fast Times - Sabrina Carpenter' },
+            
+            // Billie Eilish
+            { id: 'DxjdF1UyPqg', title: 'What Was I Made For? - Billie Eilish' },
+            { id: 'EgBJmlPo8Xw', title: 'bad guy - Billie Eilish' },
+            { id: 'pbMwTqkKSps', title: 'lovely - Billie Eilish' },
+            { id: 'D9G1VOjN_84', title: 'when the party\'s over - Billie Eilish' },
+            { id: 'v1POP-m76ac', title: 'everything i wanted - Billie Eilish' },
+            
+            // Miley Cyrus
+            { id: 'aGGBGcjdjXA', title: 'Flowers - Miley Cyrus' },
+            { id: 'My2FRPA3Gf8', title: 'Wrecking Ball - Miley Cyrus' },
+            { id: '8xg3vE8Ie_E', title: 'The Climb - Miley Cyrus' },
+            { id: 'rDWwZ3Q4vxY', title: 'Party In The U.S.A. - Miley Cyrus' },
+            { id: '8xg3vE8Ie_E', title: 'Malibu - Miley Cyrus' }
         ];
 
         function onYouTubeIframeAPIReady() {

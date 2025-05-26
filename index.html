@@ -64,6 +64,47 @@
             animation: loading 3s ease-in-out forwards;
         }
 
+        .floating-element {
+            position: absolute;
+            pointer-events: none;
+            animation: float-up 4s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        .floating-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .floating-text {
+            font-family: 'Dancing Script', cursive;
+            color: white;
+            font-size: 1.2em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            white-space: nowrap;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -130,6 +171,51 @@
     </div>
 
     <script>
+        const cuteWords = [
+            'Babu', 'BB', 'Bubu', 'Bab', 'Bumu', 'Cutu', 'Pyaari', 
+            'Sweetie', 'Love', 'Honey', 'Cutie', 'Baby', 'Darling'
+        ];
+
+        const memoryPhotos = [
+            'images/memory1.jpg',
+            'images/memory2.jpg',
+            'images/memory3.jpg',
+            'images/memory4.jpg',
+            'images/memory5.jpg'
+        ];
+
+        // Create floating elements (photos and words)
+        function createFloatingElements() {
+            setInterval(() => {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                
+                // Randomly decide if it's a photo or text
+                if (Math.random() > 0.5) {
+                    const img = document.createElement('img');
+                    img.src = memoryPhotos[Math.floor(Math.random() * memoryPhotos.length)];
+                    img.className = 'floating-photo';
+                    element.appendChild(img);
+                } else {
+                    const text = document.createElement('div');
+                    text.className = 'floating-text';
+                    text.textContent = cuteWords[Math.floor(Math.random() * cuteWords.length)];
+                    element.appendChild(text);
+                }
+
+                // Random position
+                element.style.left = Math.random() * 100 + 'vw';
+                element.style.animationDuration = (3 + Math.random() * 2) + 's';
+                
+                document.body.appendChild(element);
+
+                // Remove element after animation
+                setTimeout(() => {
+                    element.remove();
+                }, 5000);
+            }, 500); // Create new element every 500ms
+        }
+
         // Create floating hearts
         function createHearts() {
             const heartsContainer = document.querySelector('.hearts');
@@ -157,7 +243,6 @@
             if (currentIndex === -1 || currentIndex < fallbackImages.length - 1) {
                 img.src = fallbackImages[nextIndex];
             } else {
-                // If all images fail, show a default heart emoji
                 img.style.display = 'none';
                 const emoji = document.createElement('div');
                 emoji.textContent = '💖';
@@ -166,9 +251,10 @@
             }
         }
 
-        // Redirect to main page after loading
+        // Initialize everything
         window.addEventListener('load', function() {
             createHearts();
+            createFloatingElements();
             setTimeout(() => {
                 window.location.href = 'main.html';
             }, 3000);

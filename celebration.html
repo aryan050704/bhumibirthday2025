@@ -261,14 +261,18 @@
             content.innerHTML = `
                 <h1>🎉 Happy Birthday! 🎉</h1>
                 <p>Wishing you a day filled with joy and laughter!</p>
+                <div class="button-container">
+                    <a href="music.html" class="celebration-button">🎵 Play Music 🎵</a>
+                </div>
             `;
         }
 
         function createFloatingElements() {
             const container = document.querySelector('.celebration-container');
-            const elements = ['🎂', '🎈', '🎁', '🎊', '🎉', '💖', '✨', '🌟'];
+            const elements = ['🎂', '🎈', '🎁', '🎊', '🎉', '💖', '✨', '🌟', '🐱', '💝', '🎀', '🎆'];
             
-            for (let i = 0; i < 50; i++) {
+            // Create floating elements continuously
+            setInterval(() => {
                 const element = document.createElement('div');
                 element.className = 'floating-element';
                 element.textContent = elements[Math.floor(Math.random() * elements.length)];
@@ -276,8 +280,101 @@
                 element.style.animationDuration = (3 + Math.random() * 2) + 's';
                 element.style.animationDelay = Math.random() * 2 + 's';
                 container.appendChild(element);
+
+                // Remove element after animation
+                setTimeout(() => {
+                    element.remove();
+                }, 5000);
+            }, 300);
+        }
+
+        // Initialize confetti
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const confetti = [];
+        const confettiCount = 200;
+        const gravity = 0.5;
+        const terminalVelocity = 5;
+        const drag = 0.075;
+        const colors = [
+            { front: '#ff69b4', back: '#ff1493' }, // Pink
+            { front: '#ffd700', back: '#ffa500' }, // Gold
+            { front: '#87ceeb', back: '#4169e1' }, // Blue
+            { front: '#98fb98', back: '#32cd32' }, // Green
+            { front: '#ffb6c1', back: '#ff69b4' }  // Light Pink
+        ];
+
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.w = Math.random() * 10 + 5;
+                this.h = Math.random() * 5 + 5;
+                this.rotation = Math.random() * 2 * Math.PI;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.velocity = {
+                    x: Math.random() * 6 - 3,
+                    y: Math.random() * -15 - 15
+                };
+            }
+
+            update() {
+                this.velocity.x += Math.random() * 0.1 - 0.05;
+                this.velocity.y += gravity;
+                this.velocity.x *= (1 - drag);
+                this.velocity.y *= (1 - drag);
+
+                if (this.velocity.y > terminalVelocity) {
+                    this.velocity.y = terminalVelocity;
+                }
+
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.rotation += 0.01;
+
+                if (this.y > canvas.height) {
+                    this.y = -10;
+                    this.velocity.y = Math.random() * -15 - 15;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.fillStyle = this.color.front;
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x + this.w * Math.cos(this.rotation), this.y + this.w * Math.sin(this.rotation));
+                ctx.lineTo(this.x + this.w * Math.cos(this.rotation) - this.h * Math.sin(this.rotation), this.y + this.w * Math.sin(this.rotation) + this.h * Math.cos(this.rotation));
+                ctx.lineTo(this.x - this.h * Math.sin(this.rotation), this.y + this.h * Math.cos(this.rotation));
+                ctx.fill();
             }
         }
+
+        // Create confetti
+        for (let i = 0; i < confettiCount; i++) {
+            confetti.push(new Confetti());
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confetti.forEach(confetto => {
+                confetto.update();
+                confetto.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        // Start animation
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html> 

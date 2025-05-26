@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .game-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .scrambled-word {
+            font-size: 2.5em;
+            margin: 20px;
+            letter-spacing: 5px;
+            color: #333;
+        }
+
+        .input-container {
+            margin: 20px;
+        }
+
+        .word-input {
+            padding: 10px;
+            font-size: 1.2em;
+            width: 200px;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .hint-btn {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .hint-btn:hover {
+            background-color: #1976D2;
+        }
+
+        .feedback {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        .correct {
+            background-color: #90EE90;
+        }
+
+        .incorrect {
+            background-color: #ff6b6b;
+        }
+
+        .hint {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .score {
+            font-size: 1.2em;
+            margin: 10px;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            margin: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Word Scramble</h1>
+        <div class="game-container">
+            <div class="timer">Time: <span id="time">60</span>s</div>
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="scrambled-word" id="scrambledWord"></div>
+            <div class="input-container">
+                <input type="text" class="word-input" id="wordInput" placeholder="Enter your guess">
+                <button class="submit-btn" onclick="checkAnswer()">Submit</button>
+                <button class="hint-btn" onclick="showHint()">Hint</button>
+            </div>
+            <div id="feedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <script>
+        const words = [
+            { word: 'PUZZLE', hint: 'A game or problem that tests knowledge or thinking' },
+            { word: 'CHESS', hint: 'A strategic board game played on a checkered board' },
+            { word: 'KNIGHT', hint: 'A chess piece that moves in an L-shape' },
+            { word: 'CHECKMATE', hint: 'The winning move in chess' },
+            { word: 'STRATEGY', hint: 'A plan of action to achieve a goal' },
+            { word: 'TOURNAMENT', hint: 'A competition involving multiple matches' },
+            { word: 'GAMBIT', hint: 'A chess opening where a piece is sacrificed' },
+            { word: 'ENDGAME', hint: 'The final stage of a chess game' }
+        ];
+
+        let currentWord;
+        let score = 0;
+        let timeLeft = 60;
+        let timer;
+
+        function scrambleWord(word) {
+            return word.split('').sort(() => Math.random() - 0.5).join('');
+        }
+
+        function newWord() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            document.getElementById('scrambledWord').textContent = scrambleWord(currentWord.word);
+            document.getElementById('wordInput').value = '';
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
+        }
+
+        function checkAnswer() {
+            const guess = document.getElementById('wordInput').value.toUpperCase();
+            const feedback = document.getElementById('feedback');
+
+            if (guess === currentWord.word) {
+                score += 10;
+                document.getElementById('score').textContent = score;
+                feedback.textContent = 'Correct! Well done!';
+                feedback.className = 'feedback correct';
+                setTimeout(newWord, 1000);
+            } else {
+                feedback.textContent = 'Try again!';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        function showHint() {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = `Hint: ${currentWord.hint}`;
+            feedback.className = 'feedback hint';
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            document.getElementById('time').textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                alert(`Game Over! Your final score is ${score}`);
+                resetGame();
+            }
+        }
+
+        function resetGame() {
+            score = 0;
+            timeLeft = 60;
+            document.getElementById('score').textContent = score;
+            document.getElementById('time').textContent = timeLeft;
+            newWord();
+            timer = setInterval(updateTimer, 1000);
+        }
+
+        // Start the game
+        resetGame();
+
+        // Add enter key support
+        document.getElementById('wordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+    </script>
+</body>
+</html> 

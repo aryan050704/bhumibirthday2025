@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Memory Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .card {
+            aspect-ratio: 1;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+            background-color: #fff;
+        }
+
+        .card.matched {
+            background-color: #90EE90;
+            cursor: default;
+        }
+
+        .game-info {
+            text-align: center;
+            margin: 20px;
+            font-size: 1.2em;
+        }
+
+        .restart-btn {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .restart-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cat Memory Game</h1>
+        <div class="game-info">
+            <p>Moves: <span id="moves">0</span></p>
+            <p>Pairs Found: <span id="pairs">0</span></p>
+            <button class="restart-btn" onclick="restartGame()">Restart Game</button>
+        </div>
+        <div class="memory-game" id="gameBoard"></div>
+    </div>
+
+    <script>
+        const emojis = ['🐱', '😺', '😸', '😹', '😻', '😼', '😽', '🙀'];
+        let cards = [];
+        let flippedCards = [];
+        let moves = 0;
+        let pairs = 0;
+
+        function createBoard() {
+            const gameBoard = document.getElementById('gameBoard');
+            gameBoard.innerHTML = '';
+            cards = [...emojis, ...emojis]
+                .sort(() => Math.random() - 0.5)
+                .map((emoji, index) => ({
+                    id: index,
+                    emoji: emoji,
+                    isFlipped: false,
+                    isMatched: false
+                }));
+
+            cards.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card';
+                cardElement.dataset.id = card.id;
+                cardElement.addEventListener('click', () => flipCard(card.id));
+                gameBoard.appendChild(cardElement);
+            });
+        }
+
+        function flipCard(id) {
+            const card = cards.find(c => c.id === id);
+            if (flippedCards.length === 2 || card.isFlipped || card.isMatched) return;
+
+            card.isFlipped = true;
+            flippedCards.push(card);
+            updateCardDisplay(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('moves').textContent = moves;
+                checkMatch();
+            }
+        }
+
+        function updateCardDisplay(card) {
+            const cardElement = document.querySelector(`[data-id="${card.id}"]`);
+            cardElement.textContent = card.isFlipped ? card.emoji : '';
+            cardElement.classList.toggle('flipped', card.isFlipped);
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            if (card1.emoji === card2.emoji) {
+                card1.isMatched = card2.isMatched = true;
+                pairs++;
+                document.getElementById('pairs').textContent = pairs;
+                flippedCards = [];
+                
+                if (pairs === emojis.length) {
+                    setTimeout(() => {
+                        alert('Congratulations! You won!');
+                    }, 500);
+                }
+            } else {
+                setTimeout(() => {
+                    card1.isFlipped = card2.isFlipped = false;
+                    flippedCards = [];
+                    updateCardDisplay(card1);
+                    updateCardDisplay(card2);
+                }, 1000);
+            }
+        }
+
+        function restartGame() {
+            moves = 0;
+            pairs = 0;
+            flippedCards = [];
+            document.getElementById('moves').textContent = '0';
+            document.getElementById('pairs').textContent = '0';
+            createBoard();
+        }
+
+        // Initialize the game
+        createBoard();
+    </script>
+</body>
+</html> 

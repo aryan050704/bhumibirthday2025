@@ -283,8 +283,8 @@
         </nav>
 
         <div class="celebration-container">
-            <h1 class="title">Let's Celebrate!</h1>
-            <p class="subtitle">Make a wish and blow out the candle! 🐱</p>
+            <h1 class="title">🎉 Let's Celebrate! 🎉</h1>
+            <p class="subtitle">Click the button below to start the celebration!</p>
 
             <div class="birthday-cake">
                 <div class="cake">
@@ -300,185 +300,42 @@
                 <p>May our love grow stronger with each passing day</p>
             </div>
 
-            <button class="celebration-button" onclick="startCelebration()">Start Celebration! 🐱</button>
+            <button class="celebration-button" onclick="startCelebration()">Start Celebration</button>
         </div>
     </div>
 
     <canvas class="confetti" id="confetti"></canvas>
-    <div class="music-player">
-        <div class="player-title">🎵 Your Favorites 🎵</div>
-        <div id="player" class="youtube-player"></div>
-        <div class="song-list">
-            <!-- Sabrina Carpenter -->
-            <div class="song-item" data-video-id="sEXHeTcxQq4">Espresso - Sabrina Carpenter</div>
-            <div class="song-item" data-video-id="K5KAc5CoCuk">Feather - Sabrina Carpenter</div>
-            <div class="song-item" data-video-id="qHkp7LhW1qY">Nonsense - Sabrina Carpenter</div>
-            <div class="song-item" data-video-id="H3v9unrn5bQ">Vicious - Sabrina Carpenter</div>
-            <div class="song-item" data-video-id="dT_ojGIJX0s">Fast Times - Sabrina Carpenter</div>
-            
-            <!-- Billie Eilish -->
-            <div class="song-item" data-video-id="DxjdF1UyPqg">What Was I Made For? - Billie Eilish</div>
-            <div class="song-item" data-video-id="DyDfgMOUjCI">bad guy - Billie Eilish</div>
-            <div class="song-item" data-video-id="V1Pl8CzNzCw">lovely - Billie Eilish</div>
-            <div class="song-item" data-video-id="pbMwTqkKSps">when the party's over - Billie Eilish</div>
-            <div class="song-item" data-video-id="EgBJmlPo8Xw">everything i wanted - Billie Eilish</div>
-            
-            <!-- Miley Cyrus -->
-            <div class="song-item" data-video-id="G7KNmW9a75Y">Flowers - Miley Cyrus</div>
-            <div class="song-item" data-video-id="My2FRPA3Gf8">Wrecking Ball - Miley Cyrus</div>
-            <div class="song-item" data-video-id="NG2zyeVRcbs">The Climb - Miley Cyrus</div>
-            <div class="song-item" data-video-id="M11SvDtPBhA">Party In The U.S.A. - Miley Cyrus</div>
-            <div class="song-item" data-video-id="8j9zMok6two">Malibu - Miley Cyrus</div>
-        </div>
-    </div>
 
-    <script src="script.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        const cuteWords = [
-            'Babu', 'BB', 'Bubu', 'Bab', 'Bumu', 'Cutu', 'Pyaari', 
-            'Sweetie', 'Love', 'Honey', 'Cutie', 'Baby', 'Darling'
-        ];
-
-        const memoryPhotos = [
-            'images/memory1.jpg',
-            'images/memory2.jpg',
-            'images/memory3.jpg',
-            'images/memory4.jpg',
-            'images/memory5.jpg'
-        ];
+        function startCelebration() {
+            // Create floating elements
+            createFloatingElements();
+            
+            // Hide the start button
+            document.querySelector('.celebration-button').style.display = 'none';
+            
+            // Show celebration message
+            const content = document.querySelector('.celebration-container');
+            content.innerHTML = `
+                <h1>🎉 Happy Birthday! 🎉</h1>
+                <p>Wishing you a day filled with joy and laughter!</p>
+            `;
+        }
 
         function createFloatingElements() {
-            setInterval(() => {
+            const container = document.querySelector('.celebration-container');
+            const elements = ['🎂', '🎈', '🎁', '🎊', '🎉', '💖', '✨', '🌟'];
+            
+            for (let i = 0; i < 50; i++) {
                 const element = document.createElement('div');
                 element.className = 'floating-element';
-                
-                if (Math.random() > 0.5) {
-                    const img = document.createElement('img');
-                    img.src = memoryPhotos[Math.floor(Math.random() * memoryPhotos.length)];
-                    img.className = 'floating-photo';
-                    element.appendChild(img);
-                } else {
-                    const text = document.createElement('div');
-                    text.className = 'floating-text';
-                    text.textContent = cuteWords[Math.floor(Math.random() * cuteWords.length)];
-                    element.appendChild(text);
-                }
-
+                element.textContent = elements[Math.floor(Math.random() * elements.length)];
                 element.style.left = Math.random() * 100 + 'vw';
                 element.style.animationDuration = (3 + Math.random() * 2) + 's';
-                
-                document.body.appendChild(element);
-
-                setTimeout(() => {
-                    element.remove();
-                }, 5000);
-            }, 1000);
-        }
-
-        let player;
-        let currentSongIndex = 0;
-        const songs = [
-            // Sabrina Carpenter
-            { id: 'sEXHeTcxQq4', title: 'Espresso - Sabrina Carpenter' },
-            { id: 'K5KAc5CoCuk', title: 'Feather - Sabrina Carpenter' },
-            { id: 'qHkp7LhW1qY', title: 'Nonsense - Sabrina Carpenter' },
-            { id: 'H3v9unrn5bQ', title: 'Vicious - Sabrina Carpenter' },
-            { id: 'dT_ojGIJX0s', title: 'Fast Times - Sabrina Carpenter' },
-            
-            // Billie Eilish
-            { id: 'DxjdF1UyPqg', title: 'What Was I Made For? - Billie Eilish' },
-            { id: 'DyDfgMOUjCI', title: 'bad guy - Billie Eilish' },
-            { id: 'V1Pl8CzNzCw', title: 'lovely - Billie Eilish' },
-            { id: 'pbMwTqkKSps', title: 'when the party\'s over - Billie Eilish' },
-            { id: 'EgBJmlPo8Xw', title: 'everything i wanted - Billie Eilish' },
-            
-            // Miley Cyrus
-            { id: 'G7KNmW9a75Y', title: 'Flowers - Miley Cyrus' },
-            { id: 'My2FRPA3Gf8', title: 'Wrecking Ball - Miley Cyrus' },
-            { id: 'NG2zyeVRcbs', title: 'The Climb - Miley Cyrus' },
-            { id: 'M11SvDtPBhA', title: 'Party In The U.S.A. - Miley Cyrus' },
-            { id: '8j9zMok6two', title: 'Malibu - Miley Cyrus' }
-        ];
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '180',
-                width: '100%',
-                videoId: songs[0].id,
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 1,
-                    'rel': 0,
-                    'showinfo': 0,
-                    'modestbranding': 1,
-                    'playsinline': 1,
-                    'enablejsapi': 1
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange,
-                    'onError': onPlayerError
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            console.log('Player is ready');
-            updateActiveSong(0);
-            // Add click event listeners to song items
-            document.querySelectorAll('.song-item').forEach((item, index) => {
-                item.addEventListener('click', () => {
-                    currentSongIndex = index;
-                    player.loadVideoById(songs[index].id);
-                    updateActiveSong(index);
-                    if (player && player.playVideo) {
-                        player.playVideo();
-                    }
-                });
-            });
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-                playNextSong();
+                element.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(element);
             }
         }
-
-        function onPlayerError(event) {
-            console.error('YouTube Player Error:', event.data);
-            playNextSong(); // Skip to next song if there's an error
-        }
-
-        function playNextSong() {
-            currentSongIndex = (currentSongIndex + 1) % songs.length;
-            player.loadVideoById(songs[currentSongIndex].id);
-            updateActiveSong(currentSongIndex);
-        }
-
-        function updateActiveSong(index) {
-            const songItems = document.querySelectorAll('.song-item');
-            songItems.forEach((item, i) => {
-                if (i === index) {
-                    item.classList.add('active');
-                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-        }
-
-        function startCelebration() {
-            createFloatingElements();
-            if (player && player.playVideo) {
-                player.playVideo();
-            }
-        }
-
-        window.addEventListener('load', function() {
-            // Start floating elements immediately when page loads
-            createFloatingElements();
-        });
     </script>
 </body>
 </html> 

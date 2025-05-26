@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player - Happy Birthday Bhoomisha!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .music-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .player-section {
+            flex: 2;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .playlist-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .youtube-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            width: 100px;
+            height: 4px;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: #ff69b4;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .playlist-title {
+            font-family: 'Dancing Script', cursive;
+            color: #ff69b4;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .song-item {
+            padding: 12px;
+            margin: 8px 0;
+            background: rgba(255, 105, 180, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .song-item:hover {
+            background: rgba(255, 105, 180, 0.2);
+            transform: translateX(5px);
+        }
+
+        .song-item.active {
+            background: rgba(255, 105, 180, 0.3);
+            font-weight: bold;
+        }
+
+        .song-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .song-info {
+            flex: 1;
+        }
+
+        .song-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .artist-name {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .now-playing {
+            background: rgba(255, 105, 180, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .now-playing-title {
+            font-family: 'Dancing Script', cursive;
+            color: #ff69b4;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .progress {
+            position: absolute;
+            height: 100%;
+            background: #ff69b4;
+            border-radius: 2px;
+            width: 0%;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            color: #ff69b4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-button:hover {
+            transform: scale(1.1);
+        }
+
+        .play-pause {
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="gallery.html">Our Memories</a>
+                <a href="message.html">My Message</a>
+                <a href="celebration.html">Celebration</a>
+                <a href="music.html" class="active">Music</a>
+            </div>
+        </nav>
+
+        <div class="music-container">
+            <div class="player-section">
+                <div class="video-container">
+                    <div id="player" class="youtube-player"></div>
+                </div>
+                <div class="now-playing">
+                    <div class="now-playing-title">Now Playing</div>
+                    <div id="current-song-title" class="song-title">Select a song to play</div>
+                    <div class="progress-bar">
+                        <div id="progress" class="progress"></div>
+                    </div>
+                    <div class="time-info">
+                        <span id="current-time">0:00</span>
+                        <span id="total-time">0:00</span>
+                    </div>
+                    <div class="control-buttons">
+                        <button class="control-button" onclick="previousSong()">⏮</button>
+                        <button class="control-button play-pause" onclick="togglePlay()">▶</button>
+                        <button class="control-button" onclick="nextSong()">⏭</button>
+                    </div>
+                    <div class="volume-control">
+                        <span>🔊</span>
+                        <input type="range" class="volume-slider" min="0" max="100" value="100" onchange="setVolume(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="playlist-section">
+                <div class="playlist-title">🎵 Your Favorites 🎵</div>
+                <div class="song-list">
+                    <!-- Sabrina Carpenter -->
+                    <div class="song-item" data-video-id="sEXHeTcxQq4">
+                        <img src="https://img.youtube.com/vi/sEXHeTcxQq4/mqdefault.jpg" alt="Espresso">
+                        <div class="song-info">
+                            <div class="song-title">Espresso</div>
+                            <div class="artist-name">Sabrina Carpenter</div>
+                        </div>
+                    </div>
+                    <div class="song-item" data-video-id="K5KAc5CoCuk">
+                        <img src="https://img.youtube.com/vi/K5KAc5CoCuk/mqdefault.jpg" alt="Feather">
+                        <div class="song-info">
+                            <div class="song-title">Feather</div>
+                            <div class="artist-name">Sabrina Carpenter</div>
+                        </div>
+                    </div>
+                    <div class="song-item" data-video-id="qHkp7LhW1qY">
+                        <img src="https://img.youtube.com/vi/qHkp7LhW1qY/mqdefault.jpg" alt="Nonsense">
+                        <div class="song-info">
+                            <div class="song-title">Nonsense</div>
+                            <div class="artist-name">Sabrina Carpenter</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Billie Eilish -->
+                    <div class="song-item" data-video-id="DxjdF1UyPqg">
+                        <img src="https://img.youtube.com/vi/DxjdF1UyPqg/mqdefault.jpg" alt="What Was I Made For?">
+                        <div class="song-info">
+                            <div class="song-title">What Was I Made For?</div>
+                            <div class="artist-name">Billie Eilish</div>
+                        </div>
+                    </div>
+                    <div class="song-item" data-video-id="DyDfgMOUjCI">
+                        <img src="https://img.youtube.com/vi/DyDfgMOUjCI/mqdefault.jpg" alt="bad guy">
+                        <div class="song-info">
+                            <div class="song-title">bad guy</div>
+                            <div class="artist-name">Billie Eilish</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Miley Cyrus -->
+                    <div class="song-item" data-video-id="G7KNmW9a75Y">
+                        <img src="https://img.youtube.com/vi/G7KNmW9a75Y/mqdefault.jpg" alt="Flowers">
+                        <div class="song-info">
+                            <div class="song-title">Flowers</div>
+                            <div class="artist-name">Miley Cyrus</div>
+                        </div>
+                    </div>
+                    <div class="song-item" data-video-id="My2FRPA3Gf8">
+                        <img src="https://img.youtube.com/vi/My2FRPA3Gf8/mqdefault.jpg" alt="Wrecking Ball">
+                        <div class="song-info">
+                            <div class="song-title">Wrecking Ball</div>
+                            <div class="artist-name">Miley Cyrus</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let player;
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        let progressInterval;
+
+        const songs = [
+            // Sabrina Carpenter
+            { id: 'sEXHeTcxQq4', title: 'Espresso', artist: 'Sabrina Carpenter' },
+            { id: 'K5KAc5CoCuk', title: 'Feather', artist: 'Sabrina Carpenter' },
+            { id: 'qHkp7LhW1qY', title: 'Nonsense', artist: 'Sabrina Carpenter' },
+            
+            // Billie Eilish
+            { id: 'DxjdF1UyPqg', title: 'What Was I Made For?', artist: 'Billie Eilish' },
+            { id: 'DyDfgMOUjCI', title: 'bad guy', artist: 'Billie Eilish' },
+            
+            // Miley Cyrus
+            { id: 'G7KNmW9a75Y', title: 'Flowers', artist: 'Miley Cyrus' },
+            { id: 'My2FRPA3Gf8', title: 'Wrecking Ball', artist: 'Miley Cyrus' }
+        ];
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                videoId: songs[0].id,
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'modestbranding': 1,
+                    'playsinline': 1,
+                    'enablejsapi': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange,
+                    'onError': onPlayerError
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            updateActiveSong(0);
+            document.querySelectorAll('.song-item').forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    currentSongIndex = index;
+                    player.loadVideoById(songs[index].id);
+                    updateActiveSong(index);
+                    updateNowPlaying();
+                    if (player && player.playVideo) {
+                        player.playVideo();
+                        isPlaying = true;
+                        updatePlayPauseButton();
+                    }
+                });
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                nextSong();
+            } else if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                updatePlayPauseButton();
+                startProgressUpdate();
+            } else if (event.data === YT.PlayerState.PAUSED) {
+                isPlaying = false;
+                updatePlayPauseButton();
+                stopProgressUpdate();
+            }
+        }
+
+        function onPlayerError(event) {
+            console.error('YouTube Player Error:', event.data);
+            nextSong();
+        }
+
+        function togglePlay() {
+            if (isPlaying) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            player.loadVideoById(songs[currentSongIndex].id);
+            updateActiveSong(currentSongIndex);
+            updateNowPlaying();
+        }
+
+        function previousSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            player.loadVideoById(songs[currentSongIndex].id);
+            updateActiveSong(currentSongIndex);
+            updateNowPlaying();
+        }
+
+        function setVolume(value) {
+            player.setVolume(value);
+        }
+
+        function updateActiveSong(index) {
+            const songItems = document.querySelectorAll('.song-item');
+            songItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function updateNowPlaying() {
+            const currentSong = songs[currentSongIndex];
+            document.getElementById('current-song-title').textContent = 
+                `${currentSong.title} - ${currentSong.artist}`;
+        }
+
+        function updatePlayPauseButton() {
+            const button = document.querySelector('.play-pause');
+            button.textContent = isPlaying ? '⏸' : '▶';
+        }
+
+        function startProgressUpdate() {
+            stopProgressUpdate();
+            progressInterval = setInterval(updateProgress, 1000);
+        }
+
+        function stopProgressUpdate() {
+            if (progressInterval) {
+                clearInterval(progressInterval);
+            }
+        }
+
+        function updateProgress() {
+            const currentTime = player.getCurrentTime();
+            const duration = player.getDuration();
+            const progress = (currentTime / duration) * 100;
+            
+            document.getElementById('progress').style.width = `${progress}%`;
+            document.getElementById('current-time').textContent = formatTime(currentTime);
+            document.getElementById('total-time').textContent = formatTime(duration);
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            seconds = Math.floor(seconds % 60);
+            return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html> 

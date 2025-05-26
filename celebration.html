@@ -412,7 +412,8 @@
                     'rel': 0,
                     'showinfo': 0,
                     'modestbranding': 1,
-                    'playsinline': 1
+                    'playsinline': 1,
+                    'enablejsapi': 1
                 },
                 events: {
                     'onReady': onPlayerReady,
@@ -423,7 +424,19 @@
         }
 
         function onPlayerReady(event) {
+            console.log('Player is ready');
             updateActiveSong(0);
+            // Add click event listeners to song items
+            document.querySelectorAll('.song-item').forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    currentSongIndex = index;
+                    player.loadVideoById(songs[index].id);
+                    updateActiveSong(index);
+                    if (player && player.playVideo) {
+                        player.playVideo();
+                    }
+                });
+            });
         }
 
         function onPlayerStateChange(event) {
@@ -454,17 +467,6 @@
                 }
             });
         }
-
-        document.querySelectorAll('.song-item').forEach((item, index) => {
-            item.addEventListener('click', () => {
-                currentSongIndex = index;
-                player.loadVideoById(songs[index].id);
-                updateActiveSong(index);
-                if (player && player.playVideo) {
-                    player.playVideo();
-                }
-            });
-        });
 
         function startCelebration() {
             createFloatingElements();

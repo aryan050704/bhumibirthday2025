@@ -165,6 +165,131 @@
             left: 10px;
             opacity: 1;
         }
+
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            animation: float-up 4s ease-in-out forwards;
+            opacity: 0;
+            z-index: 1000;
+        }
+
+        .floating-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .floating-text {
+            font-family: 'Dancing Script', cursive;
+            color: white;
+            font-size: 1.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            white-space: nowrap;
+            background: rgba(255, 105, 180, 0.8);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: scale(1.02);
+        }
+
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .play-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ff69b4;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            background: #ff1493;
+        }
+
+        .song-info {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .song-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .song-artist {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .volume-control {
+            width: 80px;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .volume-level {
+            position: absolute;
+            height: 100%;
+            background: #ff69b4;
+            border-radius: 2px;
+            width: 70%;
+        }
+
+        .volume-control:hover .volume-level {
+            background: #ff1493;
+        }
     </style>
 </head>
 <body>
@@ -201,6 +326,136 @@
     </div>
 
     <canvas class="confetti" id="confetti"></canvas>
+    <div class="music-player">
+        <div class="music-controls">
+            <button class="play-button" onclick="togglePlay()">▶️</button>
+            <div class="song-info">
+                <div class="song-title">Feather</div>
+                <div class="song-artist">Sabrina Carpenter</div>
+            </div>
+            <div class="volume-control" onclick="adjustVolume(event)">
+                <div class="volume-level"></div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script>
+        const cuteWords = [
+            'Babu', 'BB', 'Bubu', 'Bab', 'Bumu', 'Cutu', 'Pyaari', 
+            'Sweetie', 'Love', 'Honey', 'Cutie', 'Baby', 'Darling'
+        ];
+
+        const memoryPhotos = [
+            'images/memory1.jpg',
+            'images/memory2.jpg',
+            'images/memory3.jpg',
+            'images/memory4.jpg',
+            'images/memory5.jpg'
+        ];
+
+        function createFloatingElements() {
+            setInterval(() => {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                
+                if (Math.random() > 0.5) {
+                    const img = document.createElement('img');
+                    img.src = memoryPhotos[Math.floor(Math.random() * memoryPhotos.length)];
+                    img.className = 'floating-photo';
+                    element.appendChild(img);
+                } else {
+                    const text = document.createElement('div');
+                    text.className = 'floating-text';
+                    text.textContent = cuteWords[Math.floor(Math.random() * cuteWords.length)];
+                    element.appendChild(text);
+                }
+
+                element.style.left = Math.random() * 100 + 'vw';
+                element.style.animationDuration = (3 + Math.random() * 2) + 's';
+                
+                document.body.appendChild(element);
+
+                setTimeout(() => {
+                    element.remove();
+                }, 5000);
+            }, 1000);
+        }
+
+        const songs = [
+            {
+                title: "Feather",
+                artist: "Sabrina Carpenter",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" // Replace with actual song URL
+            },
+            {
+                title: "Nonsense",
+                artist: "Sabrina Carpenter",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" // Replace with actual song URL
+            },
+            {
+                title: "Vicious",
+                artist: "Sabrina Carpenter",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" // Replace with actual song URL
+            }
+        ];
+
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        let audio = new Audio(songs[currentSongIndex].url);
+        let volume = 0.7;
+
+        function togglePlay() {
+            const playButton = document.querySelector('.play-button');
+            if (isPlaying) {
+                audio.pause();
+                playButton.textContent = '▶️';
+            } else {
+                audio.play();
+                playButton.textContent = '⏸️';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function updateSongInfo() {
+            const songTitle = document.querySelector('.song-title');
+            const songArtist = document.querySelector('.song-artist');
+            songTitle.textContent = songs[currentSongIndex].title;
+            songArtist.textContent = songs[currentSongIndex].artist;
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            audio.src = songs[currentSongIndex].url;
+            updateSongInfo();
+            if (isPlaying) {
+                audio.play();
+            }
+        }
+
+        function adjustVolume(event) {
+            const volumeControl = event.currentTarget;
+            const rect = volumeControl.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            volume = x / rect.width;
+            audio.volume = volume;
+            document.querySelector('.volume-level').style.width = (volume * 100) + '%';
+        }
+
+        audio.addEventListener('ended', nextSong);
+        audio.volume = volume;
+
+        function startCelebration() {
+            createFloatingElements();
+            if (!isPlaying) {
+                togglePlay();
+            }
+        }
+
+        window.addEventListener('load', function() {
+            // Start floating elements immediately when page loads
+            createFloatingElements();
+        });
+    </script>
 </body>
 </html> 

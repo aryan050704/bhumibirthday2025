@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Bhoomisha!</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="preload" href="./images/splash.jpg" as="image">
     <style>
         body {
             margin: 0;
@@ -122,7 +121,7 @@
         <!-- Hearts will be added by JavaScript -->
     </div>
     <div class="splash-container">
-        <img src="./images/splash.jpg" alt="Birthday Splash" class="splash-image" onerror="this.src='./images/memory1.jpg'">
+        <img src="images/splash.jpg" alt="Birthday Splash" class="splash-image" onerror="handleImageError(this)">
         <h1 class="splash-title">Happy Birthday Bhoomisha!</h1>
         <p class="splash-subtitle">A special day for a special person 💖</p>
         <div class="loading-bar">
@@ -140,6 +139,30 @@
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.animationDelay = Math.random() * 4 + 's';
                 heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Handle image loading errors
+        function handleImageError(img) {
+            const fallbackImages = [
+                'images/memory1.jpg',
+                'images/memory2.jpg',
+                'images/memory3.jpg'
+            ];
+            
+            const currentSrc = img.src;
+            const currentIndex = fallbackImages.indexOf(currentSrc);
+            const nextIndex = (currentIndex + 1) % fallbackImages.length;
+            
+            if (currentIndex === -1 || currentIndex < fallbackImages.length - 1) {
+                img.src = fallbackImages[nextIndex];
+            } else {
+                // If all images fail, show a default heart emoji
+                img.style.display = 'none';
+                const emoji = document.createElement('div');
+                emoji.textContent = '💖';
+                emoji.style.fontSize = '100px';
+                img.parentNode.insertBefore(emoji, img);
             }
         }
 
